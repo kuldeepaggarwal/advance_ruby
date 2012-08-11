@@ -1,7 +1,3 @@
-def convert(&block)
-	 block
-end
-
 puts "*********Enter your code to execute.Press q/Q to exit**********"
 line = ""
 loop do 
@@ -11,7 +7,7 @@ loop do
       puts "Bye"
       exit(ret = 0);
     when "\n"  	 
-      eval 	line
+      eval line
       line = ""
     else
       line = line + condition.to_s
