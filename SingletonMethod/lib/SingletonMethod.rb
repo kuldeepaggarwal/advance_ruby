@@ -1,7 +1,7 @@
 animal1 = "cat"
 animal2 = "dog"
-  class << animal1
-    def speak 
+class << animal1
+  def speak 
     puts "meow"
   end
 end
