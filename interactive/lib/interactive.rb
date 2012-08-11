@@ -10,6 +10,6 @@ loop do
       eval line
       line = ""
     else
-      line = line + condition.to_s
+      line = line + condition
   end
 end
