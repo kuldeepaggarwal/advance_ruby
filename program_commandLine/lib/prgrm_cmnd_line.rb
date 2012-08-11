@@ -10,10 +10,8 @@ class Print
 end
 puts "-----Enter the function name------"
 f_name = gets.chomp
-#f_name = "a"
 m = Print.new(f_name)
 puts "Enter one line code"
 code = gets
-#code = "puts 'hello'
 puts "----------Output-----------"
-m.send(f_name ,code )
+m.send(f_name, code)
