@@ -1,7 +1,7 @@
 class DynamicMethod < String
-	def initialize value
-		@value = value
-	end
+  def initialize value
+    @value = value
+  end
   def exclude? substring 
     !@value.include?substring
   end
