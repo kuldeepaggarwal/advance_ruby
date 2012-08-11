@@ -8,5 +8,5 @@ object = eval input_object
 print 'Enter function name and its parameters: '
 input_fn = gets.chomp
 object.instance_eval {
-	puts eval input_fn
+  puts eval input_fn
 }
