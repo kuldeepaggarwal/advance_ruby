@@ -1,6 +1,6 @@
 require_relative "../lib/DynamicMethod.rb"
-puts "exclude? StringToFind"
-puts "append AppendChar,times"
+puts "exclude? 'StringToFind'"
+puts "append 'AppendChar','NoOftimes'"
 
 print 'Create class object for class "DynamicMethod(\'value\')": '
 input_object = gets.chomp
