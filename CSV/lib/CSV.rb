@@ -12,31 +12,31 @@ function_names = lines[0].split(',')
 function_names.each { |n| n.strip! }
 obj = []
 cls = eval "class #{class_name}
-   def self.rw_method(n)
-     define_method(n) do |*val|
-     	if val.length != 0
-     	  @val ||= {}
-     	  @val[n] =  val
+  def self.rw_method(n)
+    define_method(n) do |*val|
+      if val.length != 0
+        @val ||= {}
+        @val[n] =  val
       else
         puts @val[n]
       end
-     end
-   end
-   (#{function_names.length}).times do |i| 
-     rw_method(#{function_names}[i])
-   end
-	self
+    end
+  end
+  (#{function_names.length}).times do |i| 
+    rw_method(#{function_names}[i])
+  end
+  self
 end"
 
 1.upto(lines.length - 1) do |index|
-	values = lines[index].split(',')
-	obj[index - 1] = cls.new
-	0.upto( values.length - 1) do |at|
-	  obj[index - 1].send( function_names[at],values[at])
+  values = lines[index].split(',')
+  obj[index - 1] = cls.new
+  0.upto( values.length - 1) do |at|
+    obj[index - 1].send( function_names[at],values[at])
   end
 end
 obj.each do |ob| 
-	function_names.each do |fname|
-		ob.send(fname)
-	end
+  function_names.each do |fname|
+    ob.send(fname)
+  end
 end
