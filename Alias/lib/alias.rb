@@ -1,21 +1,21 @@
 module MyModule
-	def chained_aliasing (*args)
-		args.each do |fname|
-			access_specifier = (public_method_defined? fname) ? "public" : ((protected_method_defined? fname) ? "protected" : "private")
-			at = fname.to_s.match(/[!?]$/) ? -2 : -1
-			f_with = "#{fname}".insert(at,"_with_logger") 
-			f_without = "#{fname}".insert(at,"_without_logger")
-			alias_method f_without.to_sym , fname
-		  define_method(f_with) do
-		  	puts '--logging start'
-		  	instance_eval {  send (f_without) }
+  def chained_aliasing (*args)
+    args.each do |fname|
+      access_specifier = (public_method_defined? fname) ? "public" : ((protected_method_defined? fname) ? "protected" : "private")
+      at = fname.to_s.match(/[!?]$/) ? -2 : -1
+      f_with = "#{fname}".insert(at,"_with_logger") 
+      f_without = "#{fname}".insert(at,"_without_logger")
+      alias_method f_without.to_sym , fname
+      define_method(f_with) do
+        puts '--logging start'
+        instance_eval {  send (f_without) }
         puts "--logging end"
-		  end
-		  send access_specifier , f_without.to_sym
-		  send access_specifier , f_with.to_sym		
-		  alias_method fname , f_with.to_sym
-		end
-	end
+      end
+      send access_specifier , f_without.to_sym
+      send access_specifier , f_with.to_sym		
+      alias_method fname , f_with.to_sym
+    end
+  end
 end
 class Hello
   extend MyModule
