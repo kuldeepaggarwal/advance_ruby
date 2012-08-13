@@ -36,7 +36,7 @@ cls.class_eval {
   values.each { |n| n.strip! }
   obj[index - 1] = cls.new
   0.upto( values.length - 1) do |at|
-    obj[index - 1].send( function_names[at] ,values[at].to_s)
+    obj[index - 1].send( function_names[at] ,values[at])
   end
 end
 obj.each do |ob|
