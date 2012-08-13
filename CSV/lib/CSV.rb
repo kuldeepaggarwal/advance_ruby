@@ -21,7 +21,9 @@ cls.class_eval {
         @val ||= {}
         @val[n] =  val
       else
-        puts @val[n]
+        t = n + " : " + @val[n].to_s
+        t.gsub!(/\[|\]/,'')
+        puts t
       end
     end
   end
@@ -31,13 +33,15 @@ cls.class_eval {
 }
 1.upto(lines.length - 1) do |index|
   values = lines[index].split(',')
+  values.each { |n| n.strip! }
   obj[index - 1] = cls.new
   0.upto( values.length - 1) do |at|
-    obj[index - 1].send( function_names[at],values[at])
+    obj[index - 1].send( function_names[at] ,values[at].to_s)
   end
 end
-obj.each do |ob| 
+obj.each do |ob|
   function_names.each do |fname|
     ob.send(fname)
   end
+  puts
 end
