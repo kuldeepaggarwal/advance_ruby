@@ -11,10 +11,10 @@ File.readlines(@fileloc).each { |line| lines << line }
 function_names = lines[0].split(',')
 function_names.each { |n| n.strip! }
 obj = []
-cls = eval "class #{class_name}
+class_name = eval "class #{class_name}
   self
 end"
-cls.class_eval {
+class_name.class_eval {
   def self.rw_method(n)
     define_method(n) do |*val|
       if val.length != 0
@@ -30,7 +30,7 @@ cls.class_eval {
 }
 1.upto(lines.length - 1) do |index|
   values = lines[index].split(',')
-  obj[index - 1] = cls.new
+  obj[index - 1] = class_name.new
   0.upto( values.length - 1) do |at|
     obj[index - 1].send( function_names[at] ,values[at])
   end
