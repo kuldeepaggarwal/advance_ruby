@@ -19,9 +19,9 @@ cls.class_eval {
   def self.rw_method(n)
     define_method(n) do |*val|
       if val.length != 0
-        instance_variable_set("@"+n, val[0].to_s)
+        instance_variable_set("@" + n, val[0].to_s)
       else
-        puts n + " : "+ instance_variable_get("@"+n)
+        puts n + " : "+ instance_variable_get("@" + n)
       end
     end
   end
