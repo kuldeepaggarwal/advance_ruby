@@ -12,6 +12,9 @@ function_names = lines[0].split(',')
 function_names.each { |n| n.strip! }
 obj = []
 cls = eval "class #{class_name}
+  self
+end"
+cls.class_eval {
   def self.rw_method(n)
     define_method(n) do |*val|
       if val.length != 0
@@ -22,12 +25,10 @@ cls = eval "class #{class_name}
       end
     end
   end
-  (#{function_names.length}).times do |i| 
-    rw_method(#{function_names}[i])
+  (function_names.length).times do |i| 
+    rw_method(function_names[i])
   end
-  self
-end"
-
+}
 1.upto(lines.length - 1) do |index|
   values = lines[index].split(',')
   obj[index - 1] = cls.new
