@@ -15,7 +15,6 @@ cls = eval "class #{class_name}
   self
 end"
 cls.class_eval {
-  attr_accessor *function_names
   def self.rw_method(n)
     define_method(n) do |*val|
       if val.length != 0
