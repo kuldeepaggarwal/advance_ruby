@@ -21,9 +21,7 @@ cls.class_eval {
         @val ||= {}
         @val[n] =  val
       else
-        t = n + " : " + @val[n].to_s
-        t.gsub!(/\[|\]/,'')
-        puts t
+        puts n + " : " + @val[n].to_s
       end
     end
   end
