@@ -15,13 +15,13 @@ cls = eval "class #{class_name}
   self
 end"
 cls.class_eval {
+  attr_accessor *function_names
   def self.rw_method(n)
     define_method(n) do |*val|
       if val.length != 0
-        @val ||= {}
-        @val[n] =  val
+        instance_variable_set("@"+n, val)
       else
-        puts n + " : " + @val[n].to_s
+        puts n + ":"+ instance_variable_get("@"+n).to_s
       end
     end
   end
