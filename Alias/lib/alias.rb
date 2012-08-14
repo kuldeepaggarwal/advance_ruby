@@ -7,7 +7,7 @@ module MyModule
       f_without = "#{fname}".insert(at,"_without_logger")     
       define_method(f_with) do
         puts '--logging start'
-        instance_eval {  send (f_without) }
+        send (f_without)
         puts "--logging end"
       end
       alias_method f_without, fname
@@ -23,7 +23,7 @@ class Hello
     puts 'greets'
   end
    def greeting
-    puts 'greets'
+    puts 'greeting'
   end
   protected
   def protect!
@@ -37,13 +37,13 @@ class Hello
 end
 say = Hello.new
 puts "Normal".center(20,'-')
-say.greets
+say.greeting
 puts
 puts "With_Logger".center(20,'-')
-say.greets_with_logger
+say.greeting_with_logger
 puts
 puts "Without_Logger".center(20,'-')
-say.greets_without_logger
+say.greeting_without_logger
 puts
 puts "Private Methods".center(25,'*')
 puts Hello.private_instance_methods - Object.private_instance_methods
