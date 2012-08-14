@@ -22,6 +22,9 @@ class Hello
   def greets
     puts 'greets'
   end
+   def greeting
+    puts 'greets'
+  end
   protected
   def protect!
     puts 'protect'
@@ -30,7 +33,7 @@ class Hello
   def logger?
     puts 'logger'
   end
-  chained_aliasing :greets, :logger?, :protect!
+  chained_aliasing :greets, :logger?, :protect!, :greeting
 end
 say = Hello.new
 puts "Normal".center(20,'-')
