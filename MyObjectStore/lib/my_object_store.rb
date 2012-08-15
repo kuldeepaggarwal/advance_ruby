@@ -46,14 +46,14 @@ module MyObjectStore
       class << self
         @@find_bys.each do |find_fn|
           fn = "find_by_#{find_fn}"
-          define_method fn do |value|
+          define_method fn do |search_string|
             result = []
             @@save_obj.each do |obj|
-              if obj["#{find_fn}"] == value
-                result << value
+              if obj["#{find_fn}"] == search_string
+                result << search_string
               end
             end
-            display = result.length > 0 ? result : "No match Found"
+            display = result.length > 0 ? result : "Not Found"
             puts "Result Matched: #{display} "
             puts "No. of matched enteries: #{result.length}"
           end
