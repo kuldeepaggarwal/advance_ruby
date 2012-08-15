@@ -7,7 +7,12 @@ module MyObjectStore
         msg = ""
         if ( (self.class.validate_presence_of (self) )  && ( ( self.class.public_method_defined? :validate) ? validate : :false ))
           p "#{fname}'s details are valid"
-          @@save_obj << Hash.new("fname" => fname, "age" => age.to_s, "email" => email).to_hash
+          save_format = ""
+          @@find_bys.each do |d|
+            save_format += "\"#{d.to_s}\"=>\"" + (send(d)).to_s + "\","
+          end
+          save_format_hash = eval "{" + save_format +" }"
+          @@save_obj << save_format_hash
         else
            puts "invalid".center(20,'*')
            p self
@@ -31,7 +36,7 @@ module MyObjectStore
         puts
         puts puts "all valid data:".center(20,'-')
         @@save_obj.each do |variable|
-          puts variable[0]
+          puts variable
         end 
         puts
         puts puts "end".center(20,'-')
@@ -45,7 +50,7 @@ module MyObjectStore
           define_method fn do |value|
             result = []
             @@save_obj.each do |variable|
-              if variable[0]["#{find_fn}"] == value
+              if variable["#{find_fn}"] == value
                 result << value
               end
             end
@@ -59,9 +64,9 @@ module MyObjectStore
   end
 end
 class Objects
-  attr_accessor :age, :fname, :email
+  attr_accessor :age, :fname, :email, :lname, :phone
   include MyObjectStore
-  validate_presence_of :fname, :email, :age
+  validate_presence_of :fname, :email, :age, :lname, :phone
   def validate
     (age > -1) ? ((fname == fname.capitalize) ? ((email.match(/^[A-Za-z]([A-Za-z0-9]|[.\-_][A-Za-z0-9])*@[A-Za-z0-9]([A-Za-z0-9]|[.][A-Za-z0-9])+([.][A-Za-z]{2,4})$/).class != NilClass ) ? true : false) : false) : false 
   end
@@ -71,8 +76,10 @@ if __FILE__ == $0
   a.fname = "Kd"
   a.email = "kd.engineer@yahoo.co.in"
   a.age = 22
+  a.lname = "a"
   a.save
   a.fname = "Akshay"
+  a.lname = "v"
   a.email = "akshay.vishnoi@vinsol.co.mmmmm"
   a.age = 22
   a.save
