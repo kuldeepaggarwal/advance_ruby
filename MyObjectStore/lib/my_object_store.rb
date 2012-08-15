@@ -1,28 +1,27 @@
 module MyObjectStore
   def self.included(cls)
     cls.class_eval {
-      @@find_bys = (cls.new.public_methods - Object.methods).to_a.uniq!{|s| s[/^\w+/]}
+      @@find_bys = (cls.new.public_methods - Object.methods).to_a.uniq!{ |s| s[/^\w+/] }
       @@save_obj = Array.new(0,Hash.new())
       define_method( :save ) do
         msg = ""
+        save_format = ""
+        @@find_bys.each do |d|
+          save_format += "\"#{d.to_s}\"=>\"" + (send(d)).to_s + "\","
+        end
+        save_format_hash = eval "{" + save_format + " }"
         if ( (self.class.validate_presence_of (self) )  && ( ( self.class.public_method_defined? :validate) ? validate : :false ))
-          p "#{fname}'s details are valid"
-          save_format = ""
-          @@find_bys.each do |d|
-            save_format += "\"#{d.to_s}\"=>\"" + (send(d)).to_s + "\","
-          end
-          save_format_hash = eval "{" + save_format +" }"
           @@save_obj << save_format_hash
         else
            puts "invalid".center(20,'*')
-           p self
+           p save_format_hash
         end
       end
     }
     cls.instance_eval do
       def validate_presence_of(*arg)
         result = true
-        if(arg.length ==1 )
+        if(arg.length == 1 )
           arg[0].instance_eval {
             @@find_bys.each do |variable|
               if (send(variable).to_s == "")
@@ -72,6 +71,7 @@ class Objects
   end
 end
 if __FILE__ == $0
+  puts "First name must be capitalised,\nAge cannot be negative,\nProper email addresss be provided and phone cannot be blank \n\n"
   a = Objects.new
   a.fname = "Kd"
   a.email = "kd.engineer@yahoo.co.in"
