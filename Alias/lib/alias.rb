@@ -4,7 +4,7 @@ module MyModule
       access_specifier = (public_method_defined? fname) ? "public" : ((protected_method_defined? fname) ? "protected" : "private")
       at = fname.to_s.match(/[!?]$/) ? -2 : -1
       f_with = "#{fname}".insert(at,"_with_logger") 
-      f_without = "#{fname}".insert(at,"_without_logger")     
+      f_without = "#{fname}".insert(at,"_without_logger")
       define_method(f_with) do
         puts '--logging start'
         send (f_without)
@@ -53,3 +53,6 @@ puts Hello.protected_instance_methods - Object.protected_instance_methods
 puts
 puts "Public Methods".center(25,'*')
 puts Hello.public_instance_methods - Object.public_instance_methods
+
+
+
