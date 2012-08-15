@@ -23,8 +23,8 @@ module MyObjectStore
         result = true
         if(arg.length == 1 )
           arg[0].instance_eval {
-            @@find_bys.each do |variable|
-              if (send(variable).to_s == "")
+            @@find_bys.each do |attribute|
+              if (send(attribute).to_s == "")
                 return false
               end
             end
@@ -34,8 +34,8 @@ module MyObjectStore
       def collect
         puts
         puts puts "all valid data:".center(20,'-')
-        @@save_obj.each do |variable|
-          puts variable
+        @@save_obj.each do |obj|
+          puts obj
         end 
         puts
         puts puts "end".center(20,'-')
@@ -48,8 +48,8 @@ module MyObjectStore
           fn = "find_by_#{find_fn}"
           define_method fn do |value|
             result = []
-            @@save_obj.each do |variable|
-              if variable["#{find_fn}"] == value
+            @@save_obj.each do |obj|
+              if obj["#{find_fn}"] == value
                 result << value
               end
             end
