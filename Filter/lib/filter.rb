@@ -2,7 +2,7 @@ module AddMethods
   def self.included(cls)
     cls.instance_eval {
       @@afters, @@befores = {}, {}  
-      def self.before_filter (*before)
+      def before_filter (*before)
         for_before = filters(before)
         method_to_be_changed =  for_before[0]
         method_to_be_added = for_before[1]
@@ -10,6 +10,18 @@ module AddMethods
           @@befores[fname] = method_to_be_added - [fname]
         end
         if ( @@afters.length != 0 )
+          remove_infinte_problem
+          create
+        end
+      end
+      def after_filter (*after)
+        for_after = filters(after)
+        method_to_be_changed =  for_after[0]
+        method_to_be_added = for_after[1]
+        method_to_be_changed.each do |fname|
+          @@afters[fname] = method_to_be_added - [fname]
+        end
+        if ( @@befores.length != 0 )
           remove_infinte_problem
           create
         end
@@ -32,18 +44,6 @@ module AddMethods
               end        
             end
           end
-      end
-      def after_filter (*after)
-        for_after = filters(after)
-        method_to_be_changed =  for_after[0]
-        method_to_be_added = for_after[1]
-        method_to_be_changed.each do |fname|
-          @@afters[fname] = method_to_be_added - [fname]
-        end
-        if ( @@befores.length != 0 )
-          remove_infinte_problem
-          create
-        end
       end
       def remove_infinte_problem
         @@afters.each do |key,value|
