@@ -28,7 +28,7 @@ module AddMethods
         elsif args[0].last[:only]
           return (args[0].last[:only].to_a) , (args[0] - [args[0].last])
         else
-          return self.instance_methods - Object.instance_methods - args[0] - args[0].last[:except] , (args[0] - [args[0].last])
+          return self.instance_methods - Object.instance_methods - args[0] , (args[0] - [args[0].last])
         end
       end
       def override_existing_methods
