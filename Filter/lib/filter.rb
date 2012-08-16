@@ -11,10 +11,8 @@ module AddMethods
       @@befores[fname] = method_to_be_added - [fname]
     end
     if ( @@afters.length != 0 )
-      puts @@befores
-      puts @@afters
        remove_infinte_problem
-      # create
+       create
     end
   end
   def create
@@ -28,7 +26,6 @@ module AddMethods
               send(b)
             end
           end
-          # puts "normal"
           a.bind(self).()          
           if(@@afters[variable].class != NilClass)
             @@afters[variable].each do | a |
@@ -38,7 +35,6 @@ module AddMethods
         
         end
       end
-        # alias_method :method_name2 , :method_name21
   end
   def after_filter (*after)
     for_after = filters(after)
@@ -49,30 +45,38 @@ module AddMethods
     end
     if ( @@befores.length != 0 )
        remove_infinte_problem
-       # create
+       create
     end
   end
   def remove_infinte_problem
-    puts "before".center(15,'-')
-    puts "after".center(15,'-')
     @@afters.each do |key,value|
       value.each do |key_for_before|
-        # puts key
-        # puts "key"
-        # puts key
-        # puts "for before"
-        # puts key_for_before
-        
+        if(@@befores[key_for_before].class != NilClass)
         indx = @@befores[key_for_before].index(key)
         if ( indx.class == Fixnum  )
-          puts "#{key}'s #{key_for_before} contains #{key} at #{indx}"
-          # (@@befores[key_for_before].delete_at(indx))
-          # puts @@befores[key_for_before].delete(key)
-          # puts @@befores[key_for_before].delete(:foo)
-        
+          @@befores[key_for_before].delete(key)        
+        end
+      end
+      if(@@afters[key_for_before].class != NilClass)
+        indx_self =  @@afters[key_for_before].index(key)
+        if ( indx_self.class == Fixnum  )
+          @@afters[key_for_before].delete(key)        
+        end
+      end
+    end
+    end
+    @@befores.each do |key,value|
+      value.each do |key_for_before|
+        if(@@befores[key_for_before].class != NilClass)
+        indx_self =  @@befores[key_for_before].index(key)
+        if ( indx_self.class == Fixnum  )
+          @@befores[key_for_before].delete(key)        
+        end
       end
       end
     end
+    # puts @@befores
+    # puts @@afters
   end
   def filters(*args)
     if args[0].last.class != Hash
@@ -102,22 +106,12 @@ class Methods
   def test_method
     puts "in test method"
   end
-  def sample_instance_method
-    puts "in sample "
-  end
+
   include AddMethods
-  after_filter :foo
-  before_filter :bar
+  after_filter :foo,:method_name2, :only => [:test_method]
+  before_filter :bar,:method_name1
  
 end
-puts "".center(25,'-')
 m = Methods.new
-# puts m.methods - Object.methods
-# puts m.method_name.methods
-# m.bar
-m.sample_instance_method
-# m.test_method
-# puts Methods.new.methods
-# m.method_name11
-# puts Methods.methods
-#puts Methods.included_modules
+m.bar
+#m.test_method
