@@ -75,12 +75,10 @@ module AddMethods
       end
       end
     end
-    # puts @@befores
-    # puts @@afters
   end
   def filters(*args)
     if args[0].last.class != Hash
-      [ self.instance_methods - Object.instance_methods ,args[0] ]
+      [ self.instance_methods - Object.instance_methods - args[0] ,args[0] ]
     elsif args[0].last[:only]
       return [(args[0].last[:only].to_a) , (args[0] - [args[0].last])]
     else
@@ -106,12 +104,10 @@ class Methods
   def test_method
     puts "in test method"
   end
-
   include AddMethods
-  after_filter :foo,:method_name2, :only => [:test_method]
-  before_filter :bar,:method_name1
+  after_filter :foo,:method_name1, :except => [:test_method]
+  before_filter :bar,:method_name2
  
 end
 m = Methods.new
-m.bar
-#m.test_method
+m.test_method
