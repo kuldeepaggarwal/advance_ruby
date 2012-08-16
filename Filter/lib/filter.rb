@@ -37,14 +37,14 @@ module AddMethods
             current_method = instance_method(variable)
             define_method variable do
               if(@@befores[variable].class != NilClass)
-                @@befores[variable].each do | b |
-                  send(b)
+                @@befores[variable].each do | before_fn |
+                  send(before_fn)
                 end
               end
               current_method.bind(self).()          
               if(@@afters[variable].class != NilClass)
-                @@afters[variable].each do | a |
-                  send(a)
+                @@afters[variable].each do | after_fn |
+                  send(after_fn)
                 end
               end        
             end
@@ -98,7 +98,7 @@ class Methods
     puts "in test method"
   end
   include AddMethods
-  after_filter :foo,:method_name1
+  after_filter :foo,:method_name1,:only => [:foo]
   before_filter :bar,:method_name2
  
 end
