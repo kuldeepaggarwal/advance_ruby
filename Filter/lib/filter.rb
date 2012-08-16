@@ -24,26 +24,26 @@ module AddMethods
       end
       def filters(args)
         if args.last.class != Hash
-          return self.instance_methods - Object.instance_methods - args , args
+          return (self.instance_methods - Object.instance_methods - args) , args
         elsif args.last[:only]
           return (args.last[:only].to_a) , (args - [args.last])
         else
-          return self.instance_methods - Object.instance_methods - args , (args - [args.last])
+          return (self.instance_methods - Object.instance_methods - args) , (args - [args.last])
         end
       end
       def override_existing_methods
-        all = self.public_instance_methods - Object.methods
-          all.each do |variable|
-            current_method = instance_method(variable)
-            define_method variable do
-              if(@@befores[variable].class != NilClass)
-                @@befores[variable].each do | before_fn |
+        all_fn = self.public_instance_methods - Object.methods
+          all_fn.each do |fn|
+            current_method = instance_method(fn)
+            define_method fn do
+              if(@@befores[fn].class != NilClass)
+                @@befores[fn].each do | before_fn |
                   send(before_fn)
                 end
               end
               current_method.bind(self).()          
-              if(@@afters[variable].class != NilClass)
-                @@afters[variable].each do | after_fn |
+              if(@@afters[fn].class != NilClass)
+                @@afters[fn].each do | after_fn |
                   send(after_fn)
                 end
               end        
