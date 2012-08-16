@@ -22,13 +22,13 @@ module AddMethods
           override_existing_methods
         end
       end
-      def filters(*args)
-        if args[0].last.class != Hash
-          return self.instance_methods - Object.instance_methods - args[0] , args[0]
-        elsif args[0].last[:only]
-          return (args[0].last[:only].to_a) , (args[0] - [args[0].last])
+      def filters(args)
+        if args.last.class != Hash
+          return self.instance_methods - Object.instance_methods - args , args
+        elsif args.last[:only]
+          return (args.last[:only].to_a) , (args - [args.last])
         else
-          return self.instance_methods - Object.instance_methods - args[0] , (args[0] - [args[0].last])
+          return self.instance_methods - Object.instance_methods - args , (args - [args.last])
         end
       end
       def override_existing_methods
