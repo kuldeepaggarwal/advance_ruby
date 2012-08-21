@@ -1,7 +1,8 @@
 class ShoppingCart
-  attr_writer :name , :quantity
   def initialize
     @items = []
+    @name = ""
+    @quantity = 0
   end
   def name(nam)
     @name = nam
