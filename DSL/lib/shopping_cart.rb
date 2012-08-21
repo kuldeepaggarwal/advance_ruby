@@ -1,5 +1,5 @@
 class ShoppingCart
-	attr_writer :name , :quantity
+  attr_writer :name , :quantity
   def initialize
     @items = []
   end
